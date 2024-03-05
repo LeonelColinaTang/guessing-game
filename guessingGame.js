@@ -3,17 +3,18 @@
 const readline = require("readline");
 const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
-function randomInRange(min, max){
+
+const randomInRange = (min, max) => { //This is the function to create the random number
     let secret = Math.floor(
       Math.random() * (max - min) + min
     )
     return secret;
 }
 
-let secretNumber;
-let numAttempts = 5;
+let secretNumber; // the secretNumber 
+let numAttempts;// the number of attempts
 
-let checkGuess = num =>{
+const checkGuess = num => { //This functions checks if the guess is the secretNumber
 
     if(num > secretNumber){
         console.log('Too high.');
@@ -27,8 +28,7 @@ let checkGuess = num =>{
     }
 }
 
-const askGuess = () => {
-
+const askGuess = () => { //Asks for a guess and checks it (checkGuess)
     rl.question("Enter a guess: ", answer =>{
 
         if(checkGuess(Number(answer))){
@@ -45,17 +45,20 @@ const askGuess = () => {
     })
 }
 
-const askRange = function(){
+const askRange = () => {//Asks for a range for the secretNum and calls askGuess.
     rl.question('Enter a minimum:\n', min =>{
         rl.question('Enter the maximum, now:\n', max =>{
             console.log(`I'm thinking of a numbwer between ${min} and ${max}...`);
             secretNumber = randomInRange(Number(min), Number(max))
-            askGuess()
+            askGuess();
         })
     })
 }
 
-askRange()
-// console.log(checkGuess(2))
-// console.log(checkGuess(4));
-// console.log(checkGuess(7));
+const askLimit = () =>{//Asks for the number of attempts and starts the game
+    rl.question('How many attempts do you want to have?: ', num =>{
+        numAttempts = num;
+        askRange();
+    })
+}
+askLimit() //Starts the game
